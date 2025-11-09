@@ -1,0 +1,110 @@
+# Ethereum Donation Listener
+
+Dieses Projekt enthält einen Ethereum-basierten Spenden-Workflow mit einem modularen Smart Contract und einem TypeScript-Listener für Off-Chain-Benachrichtigungen.
+
+## 1. 📦 Projektstruktur
+
+```text
+D:\develop\DLT\Ethereum\
+├── contracts\
+│   └── DirectedFundraiser\   ← Submodul (Smart Contract)
+├── scripts\
+│   ├── deploy_directedFundraiser.ts
+│   └── loadEnv.ts
+├── .env.template              ← Vorlage für Umgebungsvariablen
+├── .gitignore
+├── .gitattributes
+├── hardhat.config.ts
+└── package.json
+```
+
+## 2. 🔧 Setup
+
+```bash
+git clone --recurse-submodules https://github.com/du-it/Ethereum.git
+cd Ethereum
+npm install
+copy .env.template .env
+```
+
+## 3. 🚀 Listener starten
+
+```bash
+npm run listener:sms     # nur SMS
+npm run listener:email   # nur E-Mail
+```
+
+Der Listener reagiert auf `DonationReceived`-Events und versendet Benachrichtigungen via SendGrid und Twilio.
+
+## 4. 🧪 Testen
+
+```bash
+npx hardhat test
+```
+
+## 5. 📚 Submodul aktualisieren
+
+```bash
+cd contracts/DirectedFundraiser
+git pull origin main
+cd ../..
+git add contracts/DirectedFundraiser
+git commit -m "Update DirectedFundraiser submodule pointer"
+git push
+```
+
+## 6. 🔐 .env.template – sichere Vorlage
+
+```env
+# SendGrid
+SENDGRID_API_KEY=your-sendgrid-api-key
+
+# Twilio
+TWILIO_ACCOUNT_SID=your-twilio-account-sid
+TWILIO_AUTH_TOKEN=your-twilio-auth-token
+TWILIO_PHONE_NUMBER=+1234567890
+RECIPIENT_PHONE_NUMBER=+0987654321
+
+# Ethereum
+RPC_URL=https://sepolia.infura.io/v3/your-infura-project-id
+CONTRACT_ADDRESS=0xYourContractAddress
+PRIVATE_KEY=your-wallet-private-key
+```
+
+> Diese Datei wird **nicht committed**, sondern dient als Vorlage für `.env`.
+
+## 7. 🚫 .gitignore – sensible Dateien ausschließen
+
+```gitignore
+.env
+.env.local
+.env.production
+node_modules/
+dist/
+artifacts/
+cache/
+typechain/
+```
+
+## 8. ⚙️ package.json – Listener-Skripte
+
+```json
+{
+  "scripts": {
+    "listener:sms": "ts-node contracts/DirectedFundraiser/scripts/donation_listener4sms.ts",
+    "listener:email": "ts-node contracts/DirectedFundraiser/scripts/donation_listener4email.ts",
+    "test": "npx hardhat test"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "ethers": "^5.7.0",
+    "twilio": "^4.0.0",
+    "@sendgrid/mail": "^7.7.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.0",
+    "hardhat": "^2.20.0"
+  }
+}
+```
