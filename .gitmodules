@@ -1,0 +1,3 @@
+[submodule "contracts/DirectedFundraiser"]
+	path = contracts/DirectedFundraiser
+	url = https://github.com/du-it/DirectedFundraiser.git

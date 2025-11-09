@@ -1,0 +1,10 @@
+# Binärdateien
+*.png binary binary
+*.jpg binary binary
+*.jpeg binary binary
+*.ts     text eol=lf
+*.js     text eol=lf
+*.md     text eol=lf
+*.env    text eol=lf
+*.json   text eol=lf
+*.sh     text eol=lf
